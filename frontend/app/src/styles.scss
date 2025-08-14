@@ -1,0 +1,14 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: #0f172a;       // azul muy oscuro
+  color: #e2e8f0;            // gris claro
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+mat-card { background: #111827; color: #e5e7eb; }
+mat-toolbar { position: sticky; top: 0; z-index: 100; }
+
+
