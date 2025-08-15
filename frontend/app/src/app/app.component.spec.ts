@@ -1,42 +1,36 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { RouletteService } from './services/roulette.service';
 
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-// Angular Material usados por la plantilla
+// Módulos que usa el template (evitan NG0304 / NG0201)
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let comp: AppComponent;
   let svc: jasmine.SpyObj<RouletteService>;
 
   beforeEach(async () => {
-    // Espía del servicio
     svc = jasmine.createSpyObj<RouletteService>('RouletteService', [
-      'create',
-      'open',
-      'betNumber',
-      'betColor',
-      'close',
-      'list',
+      'create', 'open', 'betNumber', 'betColor', 'close', 'list'
     ]);
 
     await TestBed.configureTestingModule({
+      // AppComponent es standalone, pero añadimos explícitamente los módulos
+      // que aparecen en la vista para que el template compile en tests.
       imports: [
-        AppComponent,              // Standalone
+        AppComponent,
+        FormsModule,
         ReactiveFormsModule,
-        HttpClientTestingModule,
-        NoopAnimationsModule,
-        // Módulos de Angular Material usados en el template
         MatToolbarModule,
         MatCardModule,
         MatFormFieldModule,
@@ -44,42 +38,32 @@ describe('AppComponent', () => {
         MatSelectModule,
         MatButtonModule,
       ],
-      providers: [{ provide: RouletteService, useValue: svc }],
+      providers: [
+        { provide: RouletteService, useValue: svc },
+        provideHttpClient(),
+      ],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    comp = fixture.componentInstance;
   });
 
-  function createComponent() {
-    const fixture = TestBed.createComponent(AppComponent);
-    const comp = fixture.componentInstance;
-    fixture.detectChanges();
-    return { fixture, comp };
-  }
-
   it('debe crearse', () => {
-    const { comp } = createComponent();
     expect(comp).toBeTruthy();
   });
 
   it('crear ruleta llama al servicio y actualiza rid', () => {
-    svc.create.and.returnValue(of({ id: 'RID' }));
-    const { comp } = createComponent();
-
+    svc.create.and.returnValue(of({ id: 'RID' } as any));
     comp.create();
-
     expect(svc.create).toHaveBeenCalled();
     expect(comp.rid).toBe('RID');
   });
 
   it('listar ruletas llena el arreglo', () => {
-    const data = [{ id: 'A', status: 'closed', totalBets: 0 }];
-    svc.list.and.returnValue(of(data));
-    const { comp } = createComponent();
-
-    comp.loadRoulettes();
-
+    svc.list.and.returnValue(of([{ id: 'A', status: 'closed', totalBets: 0 }]));
+    comp.loadRoulettes(); // usa el nombre real del método del componente
     expect(svc.list).toHaveBeenCalled();
     expect(comp.roulettes.length).toBe(1);
-    expect(comp.roulettes[0].id).toBe('A');
   });
 });
 

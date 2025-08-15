@@ -11,8 +11,9 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 
-// Carga automáticamente todos los *.spec.ts
-const context = (require as any).context('./', true, /\.spec\.ts$/);
-context.keys().forEach(context);
+// ⛔️ Importante: NO uses require().context ni nada similar aquí.
+// La detección de *.spec.ts la hace el builder usando tsconfig.spec.json.
+
+
 
 

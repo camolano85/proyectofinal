@@ -1,14 +1,26 @@
+/* Tema preconstruido de Angular Material */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+/* Reset/tema base */
 html, body { height: 100%; }
 body {
   margin: 0;
-  background: #0f172a;       // azul muy oscuro
-  color: #e2e8f0;            // gris claro
+  background: #0f172a;   /* slate-900 */
+  color: #e2e8f0;        /* slate-200 */
   font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-mat-card { background: #111827; color: #e5e7eb; }
-mat-toolbar { position: sticky; top: 0; z-index: 100; }
+/* Utilidades ligeras para tarjetas y toolbar */
+.container { max-width: 1120px; margin: 0 auto; padding: 1rem; }
 
+.card {
+  background: #0b1220;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,.3);
+}
 
+/* Pequeños ajustes a botones Material */
+.mat-mdc-raised-button.mat-primary { background: #3949ab; } /* indigo */
+.mat-mdc-raised-button.mat-warn    { background: #e53935; } /* rojo  */
