@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { RouletteService } from './services/roulette.service';
 
-// Módulos que usa el template (evitan NG0304 / NG0201)
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -25,8 +25,7 @@ describe('AppComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      // AppComponent es standalone, pero añadimos explícitamente los módulos
-      // que aparecen en la vista para que el template compile en tests.
+    
       imports: [
         AppComponent,
         FormsModule,
@@ -61,7 +60,7 @@ describe('AppComponent', () => {
 
   it('listar ruletas llena el arreglo', () => {
     svc.list.and.returnValue(of([{ id: 'A', status: 'closed', totalBets: 0 }]));
-    comp.loadRoulettes(); // usa el nombre real del método del componente
+    comp.loadRoulettes(); 
     expect(svc.list).toHaveBeenCalled();
     expect(comp.roulettes.length).toBe(1);
   });

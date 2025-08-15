@@ -11,8 +11,7 @@ getTestBed().initTestEnvironment(
   platformBrowserDynamicTesting()
 );
 
-// ⛔️ Importante: NO uses require().context ni nada similar aquí.
-// La detección de *.spec.ts la hace el builder usando tsconfig.spec.json.
+
 
 
 

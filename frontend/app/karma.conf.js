@@ -11,7 +11,7 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
-      clearContext: false, // deja visible el runner para depurar
+      clearContext: false, 
     },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage'),
